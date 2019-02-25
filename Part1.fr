@@ -1,0 +1,25 @@
+module Day01.Part1 where
+
+type Frequency = Int
+type Frequencies = [Frequency]
+
+-- | read the input lines (handle the lines with a '+')
+input :: [[Char]] -> Frequencies
+input lines = map processLine lines where
+  processLine (sign:number)
+    | sign == '+' = read number
+    | otherwise = read (sign:number)
+  processLine [] = error "No input found."
+
+-- | solve the puzzle
+solve :: Frequencies -> Int
+solve fs = foldl (+) 0 fs
+
+-- | main
+main :: IO ()
+main = do
+  reader <- openReader "Day01input.txt"
+  lines <- reader.getLines
+  frequencies = input lines
+  result = solve frequencies
+  putStrLn $ "Day01: Chronal Calibration: Part1: sum -> " ++ (show result)
